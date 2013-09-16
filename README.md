@@ -2,7 +2,6 @@
 
 Envío de mensajes de texto a tráves del servicio de mesajeria de [Textveloper](http://textveloper.com)
 
-
 [![Code Climate](https://codeclimate.com/repos/523697cdc7f3a37543001042/badges/d8939168e4bd8e639d39/gpa.png)](https://codeclimate.com/repos/523697cdc7f3a37543001042/feed)
 
 ## Installation
@@ -19,9 +18,47 @@ Or install it yourself as:
 
     $ gem install textveloper
 
-## Usage
+## Uso
 
-TODO: Write usage instructions here
+```ruby
+sms = Textveloper::Sdk.new(cuenta_token,subcuenta_token)
+```
+
+### Enviar mensajes individuales
+
+```ruby
+sms.send_sms(numero,mensaje)
+sms.send_sms("04141234567","Hola Mundo")
+```
+
+Este metodo retorna un Hash object (de ser exitoso esta seria la respuesta)
+ 
+```
+ {:'04141234567' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}}
+```
+
+### Enviar mensajes "cadena" o masivos
+  único mensaje a multiples números celulares
+
+```ruby
+  sms.mass_messages(arreglo_de_numeros, mensaje)
+```
+
+```ruby
+  telefonos = ["04121234567","04149876543","04164567890"]
+
+  sms.mass_messages(telefonos, "Hola a todos") 
+```
+
+Retorna un hash con la respuesta asociada a cada número telefónico
+```ruby
+  {
+    :'04141234567' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
+    :'04149876543' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
+    :'04164567890' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}
+  }
+```
+
 
 ## Contributing
 
