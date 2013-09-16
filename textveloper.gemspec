@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Textveloper::VERSION
   spec.authors       = ["Gustavo Gimenez"]
   spec.email         = ["gimenezanderson@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Envío de mensajes de texto en Venezuela a tráves del servicio de Textveloper}
+  spec.summary       = %q{Gema para el envío de sms en Venezuela a tráves del servicio de Textveloper}
   spec.homepage      = ""
   spec.license       = "MIT"
 
