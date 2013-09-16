@@ -4,6 +4,8 @@ Envío de mensajes de texto a tráves del servicio de mesajeria de [Textveloper]
 
 [![Code Climate](https://codeclimate.com/repos/523697cdc7f3a37543001042/badges/d8939168e4bd8e639d39/gpa.png)](https://codeclimate.com/repos/523697cdc7f3a37543001042/feed)
 
+[![Gem Version](https://badge.fury.io/rb/textveloper.png)](http://badge.fury.io/rb/textveloper)
+
 ## Installation
 
 Add this line to your application's Gemfile:
