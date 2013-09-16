@@ -36,7 +36,8 @@ module Textveloper
         :cuenta_token => @account_token_number,
         :subcuenta_token => @subaccount_token_number
       }
-      Curl.get(url + api_actions[:puntos_subcuenta] + '/', data)
+      response = Curl.post(url + api_actions[:puntos_subcuenta] + '/', data).body_str
+      hash_contructor(response)
     end
 
     def mass_messages(numbers, message)
@@ -55,10 +56,14 @@ module Textveloper
     
     def show_format_response(numbers,response)
       data = {}
-      hash_constructor(numbers,response, data)        
+      hash_constructor_with_numbers(numbers,response, data)        
     end
 
-    def hash_constructor(numbers,response, data)
+    def hash_contructor(response)
+      Hash[*response.split(/\W+/)[1..-1]]
+    end
+
+    def hash_constructor_with_numbers(numbers,response, data)
       numbers.each_with_index do |number, index|
         data[number.to_sym] = Hash[*response[index].split(/\W+/)[1..-1]]
       end
