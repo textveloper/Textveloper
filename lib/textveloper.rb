@@ -2,7 +2,12 @@ require "textveloper/version"
 
 module Textveloper
 
-  class SmsService
+  class Sdk
+
+    def initialize(account_token_number, subaccount_token_number)
+      @account_token_number = account_token_number
+      @subaccount_token_number = subaccount_token_number
+    end
 
     def api_actions
       {
@@ -17,33 +22,33 @@ module Textveloper
     def send_sms(number,message)
       response = []
       data = {
-        :cuenta_token => account_token_number,
-        :subcuenta_token => subaccount_token_number,
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number,
         :telefono => number,
         :mensaje => message
       }
-      response << Curl.post(url_destiny + api_actions[:enviar] + '/', data ).body_str 
+      response << Curl.post(url + api_actions[:enviar] + '/', data ).body_str 
       show_format_response([number],response)
     end
 
     def subaccount_balance
       data = {
-        :cuenta_token => account_token_number,
-        :subcuenta_token => subaccount_token_number
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number
       }
-      Curl.get(url_destiny + api_actions[:puntos_subcuenta] + '/', data)
+      Curl.get(url + api_actions[:puntos_subcuenta] + '/', data)
     end
 
     def mass_messages(numbers, message)
       response = []
       numbers.each do |number|
         data = {
-        :cuenta_token => account_token_number,
-        :subcuenta_token => subaccount_token_number,
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number,
         :telefono => number,
         :mensaje => message
         }
-        response << Curl.post(url_destiny + api_actions[:enviar] + '/', data ).body_str
+        response << Curl.post(url + api_actions[:enviar] + '/', data ).body_str
       end
       show_format_response(numbers,response)
     end
@@ -62,16 +67,8 @@ module Textveloper
 
     private
 
-    def url_destiny
+    def url
       'http://api.textveloper.com/' 
-    end
-
-    def account_token_number
-      '39de7e62118e5e87a94e27ee50805042'
-    end
-
-    def subaccount_token_number
-      '7c29e632e9b91b13043d7890be0acc11'
     end
   end
 end
