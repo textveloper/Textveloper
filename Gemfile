@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-
-gemspec
-gem 'curb'
+group :production do
+  gem 'curb'
+end

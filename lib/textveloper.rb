@@ -1,4 +1,5 @@
 require "textveloper/version"
+require "curb"
 
 module Textveloper
 
