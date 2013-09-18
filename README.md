@@ -29,8 +29,8 @@ sms = Textveloper::Sdk.new(cuenta_token,subcuenta_token)
 ### Enviar mensajes individuales
 
 ```ruby
-sms.send_sms(numero,mensaje)
-sms.send_sms("04141234567","Hola Mundo")
+  sms.send_sms(numero,mensaje)
+  sms.send_sms("04141234567","Hola Mundo")
 ```
 
 Este metodo retorna un Hash object (de ser exitoso esta seria la respuesta)
@@ -53,6 +53,7 @@ Este metodo retorna un Hash object (de ser exitoso esta seria la respuesta)
 ```
 
 Retorna un hash con la respuesta asociada a cada número telefónico
+
 ```ruby
   {
     :'04141234567' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
