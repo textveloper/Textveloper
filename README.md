@@ -6,6 +6,8 @@ Envío de mensajes de texto a tráves del servicio de mesajeria de [Textveloper]
 
 [![Gem Version](https://badge.fury.io/rb/textveloper.png)](http://badge.fury.io/rb/textveloper)
 
+[![Build Status](https://travis-ci.org/GusGA/Textveloper.png?branch=master)](https://travis-ci.org/GusGA/Textveloper)
+
 ## Installation
 
 Add this line to your application's Gemfile:
