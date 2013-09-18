@@ -38,7 +38,7 @@ describe Textveloper do
     notificator.mass_messages(tel_numbers,mensaje).should == {:"04147890123"=>hash_response, :"04141234567"=>hash_response, :"04161234567"=>hash_response}
   end
 
-  context "asociación de numeros de telefono con data recibida" do
+  context "asociacion de numeros de telefono con data recibida" do
     let(:data){Hash.new}
     let(:numero){["04146578904"]}
     let(:numeros){["04147890123","04141234567"]}
