@@ -54,5 +54,13 @@ describe Textveloper do
 
   end
 
+  it "formatear el numero de telefono a la forma 04xxxxxxxx" do
+    notificator.format_phone("+584121234567").should eq("04121234567")
+    notificator.format_phone("+58-412.123.45.67").should eq("04121234567")
+    notificator.format_phone("0412-123-45-67").should eq("04121234567")
+    notificator.format_phone("0412.123.45.67").should eq("04121234567")
+  end
+
+
 
 end

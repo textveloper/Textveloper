@@ -71,6 +71,14 @@ module Textveloper
       data
     end
 
+    def format_phone(phone_number)
+      if phone_number[0] == '0'
+        phone_number.gsub(/[\W]|58|/,'')
+      else
+        '0' + phone_number.gsub(/[\W]|58|/,'')
+      end
+    end
+
     private
 
     def url
