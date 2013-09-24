@@ -50,44 +50,39 @@ module Textveloper
       show_format_response(numbers,response)
     end
 
-    #Historial de Transacciones 
+    #Historial de Transacciones
+
+    def transactional_data
+      {
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number
+      }
+    end 
+
+    def account_data
+      {
+        :cuenta_token => @account_token_number,
+      }
+    end
 
     def account_balance
-      data = {
-        :cuenta_token => @account_token_number,
-      }
-      hash_contructor(Curl.post(url + api_actions[:puntos_cuenta] + '/', data).body_str)
-    end
-
-    def subaccount_balance
-      data = {
-        :cuenta_token => @account_token_number,
-        :subcuenta_token => @subaccount_token_number
-      }
-      hash_contructor(Curl.post(url + api_actions[:puntos_subcuenta] + '/', data).body_str)
-    end
-
-    def account_history
-      data = {
-        :cuenta_token => @account_token_number,
-        :subcuenta_token => @subaccount_token_number
-      }
-      hash_contructor(Curl.post(url + api_actions[:envios] + '/',data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:puntos_cuenta] + '/', account_data).body_str)
     end
 
     def buy_history
-      data = {
-        :cuenta_token => @account_token_number
-      }
-      hash_contructor(Curl.post(url + api_actions[:compras] + '/',data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:compras] + '/', account_data).body_str)
+    end
+
+    def subaccount_balance
+      hash_contructor(Curl.post(url + api_actions[:puntos_subcuenta] + '/', transactional_data).body_str)
+    end
+
+    def account_history
+      hash_contructor(Curl.post(url + api_actions[:envios] + '/',transactional_data).body_str)
     end
 
     def transfer_history
-       data = {
-        :cuenta_token => @account_token_number,
-        :subcuenta_token => @subaccount_token_number
-      }
-      hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',transactional_data).body_str)
     end
     
     #metodos de formato de data
