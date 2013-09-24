@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["gimenezanderson@gmail.com"]
   spec.description   = %q{Envío de mensajes de texto en Venezuela a tráves del servicio de Textveloper}
   spec.summary       = %q{Gema para el envío de sms en Venezuela a tráves del servicio de Textveloper}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/GusGA/Textveloper"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

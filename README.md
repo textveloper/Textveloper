@@ -37,8 +37,8 @@ sms = Textveloper::Sdk.new(cuenta_token,subcuenta_token)
 
 Este metodo retorna un Hash object (de ser exitoso esta seria la respuesta)
  
-```
- {:'04141234567' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}}
+```ruby
+ {:"04141234567" => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}}
 ```
 
 ### Enviar mensajes "cadena" o masivos
@@ -56,13 +56,29 @@ Este metodo retorna un Hash object (de ser exitoso esta seria la respuesta)
 
 Retorna un hash con la respuesta asociada a cada número telefónico
 
+
 ```ruby
   {
-    :'04141234567' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
-    :'04149876543' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
-    :'04164567890' => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}
+    :"04141234567" => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
+    :"04149876543" => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"},
+    :"04164567890" => {"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}
   }
 ```
+
+### Historial 
+
+#### Transferencias
+  Pendiente
+
+#### Mensajes Enviados
+  Pendiente
+
+#### Compras
+  Pendiente
+
+### Consulta de Puntos
+  Pendiente
+
 
 
 ## Contributing
