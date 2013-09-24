@@ -1,5 +1,6 @@
 require "textveloper/version"
 require "curb"
+require "json"
 
 module Textveloper
 
@@ -17,8 +18,11 @@ module Textveloper
       :puntos_subcuenta => 'saldo-subcuenta',
       :compras => 'historial-compras',
       :envios => 'historial-envios',
+      :transferencias => 'historial-transferencias'
       }
     end
+
+    #Servicio SMS 
 
     def send_sms(number,message)
       response = []
@@ -30,15 +34,6 @@ module Textveloper
       }
       response << Curl.post(url + api_actions[:enviar] + '/', data ).body_str 
       show_format_response([number],response)
-    end
-
-    def subaccount_balance
-      data = {
-        :cuenta_token => @account_token_number,
-        :subcuenta_token => @subaccount_token_number
-      }
-      response = Curl.post(url + api_actions[:puntos_subcuenta] + '/', data).body_str
-      hash_contructor(response)
     end
 
     def mass_messages(numbers, message)
@@ -54,30 +49,69 @@ module Textveloper
       end
       show_format_response(numbers,response)
     end
+
+    #Historial de Transacciones 
+
+    def account_balance
+      data = {
+        :cuenta_token => @account_token_number,
+      }
+      hash_contructor(Curl.post(url + api_actions[:puntos_cuenta] + '/', data).body_str)
+    end
+
+    def subaccount_balance
+      data = {
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number
+      }
+      hash_contructor(Curl.post(url + api_actions[:puntos_subcuenta] + '/', data).body_str)
+    end
+
+    def account_history
+      data = {
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number
+      }
+      hash_contructor(Curl.post(url + api_actions[:envios] + '/',data).body_str)
+    end
+
+    def buy_history
+      data = {
+        :cuenta_token => @account_token_number
+      }
+      hash_contructor(Curl.post(url + api_actions[:compras] + '/',data).body_str)
+    end
+
+    def transfer_history
+       data = {
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number
+      }
+      hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',data).body_str)
+    end
     
+    #metodos de formato de data
+
     def show_format_response(numbers,response)
       data = {}
       hash_constructor_with_numbers(numbers,response, data)        
     end
 
-    def hash_contructor(response)
-      Hash[*response.split(/\W+/)[1..-1]]
-    end
-
     def hash_constructor_with_numbers(numbers,response, data)
       numbers.each_with_index do |number, index|
-        data[number.to_sym] = Hash[*response[index].split(/\W+/)[1..-1]]
+        data[number.to_sym] = hash_contructor(  response[index])
       end
       data
     end
 
     def format_phone(phone_number)
-      if phone_number[0] == '0'
-        phone_number.gsub(/[\W]|58|/,'')
-      else
-        '0' + phone_number.gsub(/[\W]|58|/,'')
-      end
+      phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
+    end    
+
+    def hash_contructor(response)
+      JSON.parse(response)
     end
+
 
     private
 
