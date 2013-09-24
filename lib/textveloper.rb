@@ -88,13 +88,13 @@ module Textveloper
     #metodos de formato de data
 
     def show_format_response(numbers,response)
-      data = {}
-      hash_constructor_with_numbers(numbers,response, data)        
+      hash_constructor_with_numbers(numbers,response)        
     end
 
-    def hash_constructor_with_numbers(numbers,response, data)
+    def hash_constructor_with_numbers(numbers,response)
+      data = Hash.new
       numbers.each_with_index do |number, index|
-        data[number.to_sym] = hash_contructor(  response[index])
+        data[number.to_sym] = hash_contructor(response[index])
       end
       data
     end

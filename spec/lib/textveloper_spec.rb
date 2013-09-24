@@ -40,16 +40,15 @@ describe Textveloper do
   end
 
   context "asociacion de numeros de telefono con data recibida" do
-    let(:data){Hash.new}
     let(:numero){["04146578904"]}
     let(:numeros){["04147890123","04141234567"]}
     
     it "un telefono" do
-      notificator.hash_constructor_with_numbers(numero,[response], data).should == {:"04146578904"=>hash_response}
+      notificator.hash_constructor_with_numbers(numero,[response]).should == {:"04146578904"=>hash_response}
     end
 
     it "varios numeros" do 
-      notificator.hash_constructor_with_numbers(numeros,[response,response], data).should == {:"04147890123"=>hash_response,:"04141234567"=>hash_response}
+      notificator.hash_constructor_with_numbers(numeros,[response,response]).should == {:"04147890123"=>hash_response,:"04141234567"=>hash_response}
     end
 
   end
