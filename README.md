@@ -68,16 +68,71 @@ Retorna un hash con la respuesta asociada a cada número telefónico
 ### Historial 
 
 #### Transferencias
-  Pendiente
+  #### Consulta de transferencia de puntos a subcuentas
 
+  ```ruby
+    sms.transfer_history
+  ```
+
+  ```ruby
+    {
+      "transaccion"=>"exitosa", 
+      "historico"=>[{"codigo_transaccion"=>"13", "fecha"=>"2013-09-24 00:29:13", "cantidad"=>"50"}]
+    }
+  ```
 #### Mensajes Enviados
-  Pendiente
+  
+  #### Consulta de mensajes enviados por cuenta
+
+  ```ruby
+    sms.account_history
+  ```  
+  
+  ```ruby
+    { 
+      "transaccion"=>"exitosa", 
+      "historico"=>
+        [
+          {"codigo_log"=>"100", "telefono"=>"04141234567", "estatus"=>"Enviado", "mensaje"=>"Hola Mundo", "fecha"=>"2013-09-23 23:20:07"}, 
+          {"codigo_log"=>"101", "telefono"=>"04129876543", "estatus"=>"Enviado", "mensaje"=>"Hola Marte", "fecha"=>"2013-09-23 23:24:43"}
+        ]
+    }
+  ```
 
 #### Compras
   Pendiente
 
 ### Consulta de Puntos
-  Pendiente
+  
+  #### Consulta de puntos por cuenta
+
+  ```ruby
+    sms.account_balance
+  ```
+  
+  ```ruby
+    {"transaccion"=>"exitosa", "puntos_utilizados"=>"54", "total_puntos"=>"100", "puntos_disponibles"=>"46"}
+  ```
+
+  `puntos_utilizados` todos los puntos que fueron transferidos a las distintas subcuentas
+  
+  `total_puntos` todos los puntos adquiridos
+  
+  `puntos_disponibles` todos los puntos que aún no han sido utilizados 
+
+  #### Consulta de Puntos por subcuenta
+  
+  Las subcuentas deben ser limitadas y tener un numero finito de puntos(mensajes)
+
+
+  ```ruby
+    sms.subaccount_balance 
+  ```
+
+  ```ruby
+    {"transaccion"=>"exitosa", "puntos_enviados"=>"2", "total_puntos"=>"50", "puntos_disponibles"=>"48"}
+  ```
+
 
 
 
