@@ -68,7 +68,7 @@ Retorna un hash con la respuesta asociada a cada número telefónico
 ### Historial 
 
 #### Transferencias
-  #### Consulta de transferencia de puntos a subcuentas
+  Consulta de transferencia de puntos a subcuentas
 
   ```ruby
     sms.transfer_history
@@ -82,7 +82,7 @@ Retorna un hash con la respuesta asociada a cada número telefónico
   ```
 #### Mensajes Enviados
   
-  #### Consulta de mensajes enviados por cuenta
+  Consulta de mensajes enviados por cuenta
 
   ```ruby
     sms.account_history
@@ -104,7 +104,7 @@ Retorna un hash con la respuesta asociada a cada número telefónico
 
 ### Consulta de Puntos
   
-  #### Consulta de puntos por cuenta
+  Consulta de puntos por cuenta
 
   ```ruby
     sms.account_balance
@@ -120,7 +120,7 @@ Retorna un hash con la respuesta asociada a cada número telefónico
   
   `puntos_disponibles` todos los puntos que aún no han sido utilizados 
 
-  #### Consulta de Puntos por subcuenta
+  Consulta de Puntos por subcuenta
   
   Las subcuentas deben ser limitadas y tener un numero finito de puntos(mensajes)
 
