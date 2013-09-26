@@ -93,8 +93,18 @@ Retorna un hash con la respuesta asociada a cada número telefónico
       "transaccion"=>"exitosa", 
       "historico"=>
         [
-          {"codigo_log"=>"100", "telefono"=>"04141234567", "estatus"=>"Enviado", "mensaje"=>"Hola Mundo", "fecha"=>"2013-09-23 23:20:07"}, 
-          {"codigo_log"=>"101", "telefono"=>"04129876543", "estatus"=>"Enviado", "mensaje"=>"Hola Marte", "fecha"=>"2013-09-23 23:24:43"}
+          { "codigo_log"=>"100", 
+            "telefono"=>"04141234567", 
+            "estatus"=>"Enviado", 
+            "mensaje"=>"Hola Mundo", 
+            "fecha"=>"2013-09-23 23:20:07"
+          }, 
+          { "codigo_log"=>"101", 
+            "telefono"=>"04129876543", 
+            "estatus"=>"Enviado", 
+            "mensaje"=>"Hola Marte", 
+            "fecha"=>"2013-09-23 23:24:43"
+           }
         ]
     }
   ```
