@@ -22,31 +22,44 @@ module Textveloper
       }
     end
 
+    def core_operation(number, message)
+      data = {
+        :cuenta_token => @account_token_number,
+        :subcuenta_token => @subaccount_token_number,
+        :telefono => format_phone(number),
+        :mensaje => message
+      }
+      return Curl.post(url + api_actions[:enviar] + '/', data ).body_str
+    end
+
     #Servicio SMS 
 
     def send_sms(number,message)
       response = []
-      data = {
-        :cuenta_token => @account_token_number,
-        :subcuenta_token => @subaccount_token_number,
-        :telefono => number,
-        :mensaje => message
-      }
-      response << Curl.post(url + api_actions[:enviar] + '/', data ).body_str 
-      show_format_response([number],response)
+      if message.size <= 140
+        response << core_operation(number,message)
+      else
+        chunck_message(message).each do |m|
+          response << core_operation(number, m)
+        end
+      end
+      show_format_response([format_phone(number)],response)
     end
 
     def mass_messages(numbers, message)
       response = []
-      numbers.each do |number|
-        data = {
-        :cuenta_token => @account_token_number,
-        :subcuenta_token => @subaccount_token_number,
-        :telefono => number,
-        :mensaje => message
-        }
-        response << Curl.post(url + api_actions[:enviar] + '/', data ).body_str
+      if message.size <= 140
+        numbers.each do |number|
+          response << core_operation(number, message)
+        end
+      else
+        numbers.each do |number|
+          chunck_message(message).each do |m|
+            response << core_operation(number,m)
+          end
+        end
       end
+      numbers.map!{ |n| format_phone(n)}
       show_format_response(numbers,response)
     end
 
@@ -107,6 +120,9 @@ module Textveloper
       JSON.parse(response)
     end
 
+    def chunck_message(message)
+      message.scan(/.{1,140}/)
+    end
 
     private
 
