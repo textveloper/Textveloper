@@ -8,6 +8,8 @@ Envío de mensajes de texto a tráves del servicio de mesajeria de [Textveloper]
 
 [![Build Status](https://travis-ci.org/GusGA/Textveloper.png?branch=master)](https://travis-ci.org/GusGA/Textveloper)
 
+[![Gittip](http://img.shields.io/gittip/gusga.png)](https://www.gittip.com/GusGA/)
+
 ## Installation
 
 Add this line to your application's Gemfile:
