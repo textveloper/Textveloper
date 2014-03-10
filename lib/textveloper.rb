@@ -113,7 +113,7 @@ module Textveloper
     end
 
     def format_phone(phone_number)
-      phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
+      phone_number.nil? ? "" : phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
     end    
 
     def hash_contructor(response)
