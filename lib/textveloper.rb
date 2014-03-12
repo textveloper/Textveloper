@@ -36,7 +36,7 @@ module Textveloper
 
     def send_sms(number,message)
       response = []
-      if message.size <= 140
+      if message.size <= 160
         response << core_operation(number,message)
       else
         chunck_message(message).each do |m|
@@ -48,7 +48,7 @@ module Textveloper
 
     def mass_messages(numbers, message)
       response = []
-      if message.size <= 140
+      if message.size <= 160
         numbers.each do |number|
           response << core_operation(number, message)
         end
@@ -121,7 +121,12 @@ module Textveloper
     end
 
     def chunck_message(message)
-      message.scan(/.{1,140}/)
+      #Leave space for pagination i.e: "BLAh blah blah (2/3)"
+      paginate(message.scan(/.{1,155}\b/).map(&:strip))
+    end
+
+    def paginate(arr)
+      arr.map!.with_index {|elem,i| elem << "#{i+1}/#{arr.size}" }
     end
 
     private
