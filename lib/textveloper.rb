@@ -112,6 +112,8 @@ module Textveloper
       data
     end
 
+    private
+
     def format_phone(phone_number)
       phone_number.nil? ? "" : phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
     end    
@@ -122,14 +124,13 @@ module Textveloper
 
     def chunck_message(message)
       #Leave space for pagination i.e: "BLAh blah blah (2/3)"
-      paginate(message.scan(/.{1,155}\b/).map(&:strip))
+      paginate(message.scan(/.{1,155}/).map(&:strip))
     end
 
     def paginate(arr)
-      arr.map!.with_index {|elem,i| elem << "#{i+1}/#{arr.size}" }
+      arr.map!.with_index {|elem,i| elem << " #{i+1}/#{arr.size}" }
     end
 
-    private
 
     def url
       'http://api.textveloper.com/' 
