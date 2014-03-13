@@ -54,18 +54,18 @@ describe Textveloper do
   end
 
   it "formatear el numero de telefono a la forma 04xxxxxxxx" do
-    notificator.format_phone("+584121234567").should eq("04121234567")
-    notificator.format_phone("+58-412.123.45.67").should eq("04121234567")
-    notificator.format_phone("0412-123-45-67").should eq("04121234567")
-    notificator.format_phone("0412.123.45.67").should eq("04121234567")
-    notificator.format_phone("+58-412.158.58.58").should eq("04121585858")
-    notificator.format_phone("58.412.1.2.3.4.5.6.7").should eq("04121234567")
-    notificator.format_phone("+58 412 123 45 67").should eq("04121234567")
+    notificator.send(:format_phone,"+584121234567").should eq("04121234567")
+    notificator.send(:format_phone,"+58-412.123.45.67").should eq("04121234567")
+    notificator.send(:format_phone,"0412-123-45-67").should eq("04121234567")
+    notificator.send(:format_phone,"0412.123.45.67").should eq("04121234567")
+    notificator.send(:format_phone,"+58-412.158.58.58").should eq("04121585858")
+    notificator.send(:format_phone,"58.412.1.2.3.4.5.6.7").should eq("04121234567")
+    notificator.send(:format_phone,"+58 412 123 45 67").should eq("04121234567")
 
   end
 
   it "formatear response a hash " do
-    notificator.hash_contructor(points).should eq(hash_response_points)
+    notificator.send(:hash_contructor,points).should eq(hash_response_points)
   end
 
 
