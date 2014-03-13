@@ -11,6 +11,7 @@ describe Textveloper do
   let(:hash_response){{"transaccion"=>"exitosa", "mensaje_transaccion"=>"MENSAJE_ENVIADO"}}
   let(:points){"{\"transaccion\":\"exitosa\",\"puntos_enviados\":\"0\",\"total_puntos\":\"0\",\"puntos_disponibles\":\"0\"}"}
   let(:hash_response_points){{"transaccion"=>"exitosa", "puntos_enviados"=>"0", "total_puntos" => "0", "puntos_disponibles" => "0"}}
+  let(:mensaje_largo){"Doggy ipsizzle dolor black amizzle, yo mamma rizzle elit. Nullizzle its fo rizzle velizzle, fo volutpizzle, suscipizzle quis, ghetto vel, fizzle. Pellentesque crunk tortizzle. Sizzle pizzle. Sizzle izzle dolor nizzle turpis mofo gizzle. Maurizzle pellentesque shizzle my nizzle crocodizzle crackalackin turpizzle."}
   let(:url){'http://api.textveloper.com/'}
 
 
@@ -66,6 +67,14 @@ describe Textveloper do
 
   it "formatear response a hash " do
     notificator.send(:hash_contructor,points).should eq(hash_response_points)
+  end
+
+  it "Divisor de mensajes" do
+    mensaje_cortado = ["Doggy ipsizzle dolor black amizzle, yo mamma rizzle elit. Nullizzle its fo rizzle velizzle, fo volutpizzle, suscipizzle quis, ghetto vel, fizzle. 1/3",
+      "Pellentesque crunk tortizzle. Sizzle pizzle. Sizzle izzle dolor nizzle turpis mofo gizzle. Maurizzle pellentesque shizzle my nizzle crocodizzle 2/3",
+      "crackalackin turpizzle 3/3"]
+    notificator.send(:chunck_message, mensaje_largo).should eq(mensaje_cortado)
+
   end
 
 

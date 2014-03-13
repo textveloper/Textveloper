@@ -124,7 +124,7 @@ module Textveloper
 
     def chunck_message(message)
       #Leave space for pagination i.e: "BLAh blah blah (2/3)"
-      paginate(message.scan(/.{1,155}/).map(&:strip))
+      paginate(message.scan(/.{1,155}\b/).map(&:strip))
     end
 
     def paginate(arr)
