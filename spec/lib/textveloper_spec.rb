@@ -62,6 +62,7 @@ describe Textveloper do
     notificator.send(:format_phone,"+58-412.158.58.58").should eq("04121585858")
     notificator.send(:format_phone,"58.412.1.2.3.4.5.6.7").should eq("04121234567")
     notificator.send(:format_phone,"+58 412 123 45 67").should eq("04121234567")
+    notificator.send(:format_phone,"(0412)1234567").should eq("04121234567")
 
   end
 

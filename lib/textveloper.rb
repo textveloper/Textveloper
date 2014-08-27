@@ -32,7 +32,7 @@ module Textveloper
       return Curl.post(url + api_actions[:enviar] + '/', data ).body_str
     end
 
-    #Servicio SMS 
+    #Servicio SMS
 
     def send_sms(number,message)
       response = []
@@ -51,11 +51,13 @@ module Textveloper
       if message.size <= 160
         numbers.each do |number|
           response << core_operation(number, message)
+          slow_sms
         end
       else
         numbers.each do |number|
           chunck_message(message).each do |m|
             response << core_operation(number,m)
+            slow_sms
           end
         end
       end
@@ -70,7 +72,7 @@ module Textveloper
         :cuenta_token => @account_token_number,
         :subcuenta_token => @subaccount_token_number
       }
-    end 
+    end
 
     def account_data
       {
@@ -97,11 +99,11 @@ module Textveloper
     def transfer_history
       hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',transactional_data).body_str)
     end
-    
+
     #metodos de formato de data
 
     def show_format_response(numbers,response)
-      hash_constructor_with_numbers(numbers,response)        
+      hash_constructor_with_numbers(numbers,response)
     end
 
     def hash_constructor_with_numbers(numbers,response)
@@ -116,7 +118,7 @@ module Textveloper
 
     def format_phone(phone_number)
       phone_number.nil? ? "" : phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
-    end    
+    end
 
     def hash_contructor(response)
       JSON.parse(response)
@@ -131,9 +133,12 @@ module Textveloper
       arr.map!.with_index {|elem,i| elem << " #{i+1}/#{arr.size}" }
     end
 
+    def slow_sms
+      sleep(1)
+    end
 
     def url
-      'http://api.textveloper.com/' 
+      'http://api.textveloper.com/'
     end
   end
 end
