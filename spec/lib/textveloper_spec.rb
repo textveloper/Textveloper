@@ -18,40 +18,70 @@ describe Textveloper do
   it "consulta de puntos" do
       stub_request(:post, "http://api.textveloper.com/saldo-subcuenta/").
          with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token").
-         to_return(:status => 200, :body => points, :headers => {})
-    notificator.subaccount_balance.should == hash_response_points  
+         to_return(:status => 200, :body => points, :headers => {"Content-Type" => "application/json"})
+    notificator.subaccount_balance.should == hash_response_points
+  end
+
+  it 'Api no responde sin envía algo distinto a JSON' do
+    stub_request(:post, "http://api.textveloper.com/enviar/").
+      with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=04121234567&mensaje=Enviado+desde+textveloper+plataform").
+      to_return(:status => 200, :body => "<html><head></head><body><h1>To Many Request</h1></body></html>", :headers => {"Content-Type" => "application/html"})
+    notificator.send_sms("04121234567", mensaje).should == {:"04121234567"=>{"transaccion"=>"error", "mensaje_transaccion"=>"ERROR_EN_SERVICIO"}}
   end
 
 
   it 'envio de mensaje simple' do
     stub_request(:post, "http://api.textveloper.com/enviar/").
          with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=04121234567&mensaje=Enviado+desde+textveloper+plataform").
-         to_return(:status => 200, :body => response, :headers => {})
+         to_return(:status => 200, :body => response, :headers => {"Content-Type" => "application/json"})
 
     notificator.send_sms("04121234567",mensaje).should == {:"04121234567"=>hash_response}
-  end 
+  end
 
   it 'envio masivo de mensajes' do
     tel_numbers.each do |number|
         stub_request(:post, "http://api.textveloper.com/enviar/").
          with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=#{number}&mensaje=Enviado+desde+textveloper+plataform").
-         to_return(:status => 200, :body => response, :headers => {})
-    end     
+         to_return(:status => 200, :body => response, :headers => {"Content-Type" => "application/json"})
+    end
     notificator.mass_messages(tel_numbers,mensaje).should == {:"04147890123"=>hash_response, :"04141234567"=>hash_response, :"04161234567"=>hash_response}
   end
 
   context "asociacion de numeros de telefono con data recibida" do
     let(:numero){["04146578904"]}
     let(:numeros){["04147890123","04141234567"]}
-    
+
+
     it "un telefono" do
-      notificator.hash_constructor_with_numbers(numero,[response]).should == {:"04146578904"=>hash_response}
+      responses = []
+      numero.each do |number|
+        stub_request(:post, "http://api.textveloper.com/enviar/").
+         with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=#{number}&mensaje=Enviado+desde+textveloper+plataform").
+         to_return(:status => 200, :body => response, :headers => {"Content-Type" => "application/json"})
+         responses << notificator.core_operation(number, mensaje)
+       end
+      notificator.hash_constructor_with_numbers(numero,responses).should == {:"04146578904"=>hash_response}
     end
 
-    it "varios numeros" do 
-      notificator.hash_constructor_with_numbers(numeros,[response,response]).should == {:"04147890123"=>hash_response,:"04141234567"=>hash_response}
+    it "varios numeros" do
+      responses = []
+      numeros.each do |number|
+        stub_request(:post, "http://api.textveloper.com/enviar/").
+         with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=#{number}&mensaje=Enviado+desde+textveloper+plataform").
+         to_return(:status => 200, :body => response, :headers => {"Content-Type" => "application/json"})
+         responses << notificator.core_operation(number, mensaje)
+       end
+      notificator.hash_constructor_with_numbers(numeros,responses).should == {:"04147890123"=>hash_response,:"04141234567"=>hash_response}
     end
 
+  end
+
+  it "Error en servicio, respuesta del firewall formato HTML" do
+    stub_request(:post, "http://api.textveloper.com/enviar/").
+      with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=04121234567&mensaje=Enviado+desde+textveloper+plataform").
+      to_return(:status => 200, :body => "<html><head></head><body><h1>To Many Request</h1></body></html>", :headers => {"Content-Type" => "application/html"})
+    response = notificator.core_operation("04121234567", mensaje)
+    notificator.send(:hash_contructor, response).should == {"transaccion"=>"error", "mensaje_transaccion"=>"ERROR_EN_SERVICIO"}
   end
 
   it "formatear el numero de telefono a la forma 04xxxxxxxx" do
@@ -67,7 +97,11 @@ describe Textveloper do
   end
 
   it "formatear response a hash " do
-    notificator.send(:hash_contructor,points).should eq(hash_response_points)
+  stub_request(:post, "http://api.textveloper.com/enviar/").
+      with(:body => "cuenta_token=account_token&subcuenta_token=subaccount_token&telefono=04121234567&mensaje=Enviado+desde+textveloper+plataform").
+      to_return(:status => 200, :body => response, :headers => {"Content-Type" => "application/json"})
+    rspn = notificator.core_operation("04121234567", mensaje)
+    notificator.send(:hash_contructor,rspn).should eq(hash_response)
   end
 
   it "Divisor de mensajes" do

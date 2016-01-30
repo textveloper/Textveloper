@@ -29,7 +29,7 @@ module Textveloper
         :telefono => format_phone(number),
         :mensaje => message
       }
-      return Curl.post(url + api_actions[:enviar] + '/', data ).body_str
+      return Curl.post(url + api_actions[:enviar] + '/', data )
     end
 
     #Servicio SMS
@@ -81,23 +81,23 @@ module Textveloper
     end
 
     def account_balance
-      hash_contructor(Curl.post(url + api_actions[:puntos_cuenta] + '/', account_data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:puntos_cuenta] + '/', account_data))
     end
 
     def buy_history
-      hash_contructor(Curl.post(url + api_actions[:compras] + '/', account_data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:compras] + '/', account_data))
     end
 
     def subaccount_balance
-      hash_contructor(Curl.post(url + api_actions[:puntos_subcuenta] + '/', transactional_data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:puntos_subcuenta] + '/', transactional_data))
     end
 
     def account_history
-      hash_contructor(Curl.post(url + api_actions[:envios] + '/',transactional_data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:envios] + '/',transactional_data))
     end
 
     def transfer_history
-      hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',transactional_data).body_str)
+      hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',transactional_data))
     end
 
     #metodos de formato de data
@@ -114,14 +114,22 @@ module Textveloper
       data
     end
 
-    private
+    #private
 
     def format_phone(phone_number)
       phone_number.nil? ? "" : phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
     end
 
+    def valid_content_types
+      ["application/json", "application/x-javascript", "text/javascript", "text/x-javascript", "text/x-json"]
+    end
+
     def hash_contructor(response)
-      JSON.parse(response)
+      if valid_content_types.any? { |type| response.content_type.match(type) }
+        JSON.parse(response.body_str)
+      else
+        {"transaccion"=>"error", "mensaje_transaccion"=>"ERROR_EN_SERVICIO"}
+      end
     end
 
     def chunck_message(message)
