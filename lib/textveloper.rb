@@ -32,7 +32,7 @@ module Textveloper
       return Curl.post(url + api_actions[:enviar] + '/', data )
     end
 
-    #Servicio SMS
+    # Servicio SMS
 
     def send_sms(number,message)
       response = []
@@ -65,7 +65,7 @@ module Textveloper
       show_format_response(numbers,response)
     end
 
-    #Historial de Transacciones
+    # Historial de Transacciones
 
     def transactional_data
       {
@@ -100,7 +100,7 @@ module Textveloper
       hash_contructor(Curl.post(url + api_actions[:transferencias] + '/',transactional_data))
     end
 
-    #metodos de formato de data
+    # Metodos de formato de data
 
     def show_format_response(numbers,response)
       hash_constructor_with_numbers(numbers,response)
@@ -114,7 +114,7 @@ module Textveloper
       data
     end
 
-    #private
+    private
 
     def format_phone(phone_number)
       phone_number.nil? ? "" : phone_number.gsub(/\W/,"").sub(/^58/,"").sub(/(^4)/, '0\1')
@@ -133,7 +133,7 @@ module Textveloper
     end
 
     def chunck_message(message)
-      #Leave space for pagination i.e: "BLAh blah blah (2/3)"
+      # Leave space for pagination i.e: "BLAh blah blah (2/3)"
       paginate(message.scan(/.{1,155}\b/).map(&:strip))
     end
 
