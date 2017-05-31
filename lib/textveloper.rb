@@ -146,7 +146,7 @@ module Textveloper
     end
 
     def url
-      'http://api.textveloper.com/'
+      'https://api.textveloper.com/'
     end
   end
 end
